@@ -1,0 +1,6 @@
+requests==2.21.0
+pandas==0.23.4
+beautifulsoup4==4.8.1
+bs4
+json
+logging
