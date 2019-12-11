@@ -9,10 +9,10 @@ import logging
 
 
 def main():
-
+    #Creating logging instance
     logging.basicConfig(level=logging.INFO)
 
-
+    #getting URL and path from config.ini
     config = configparser.ConfigParser()
     config.read('config.ini')
     url=config.get('URL', 'url')
@@ -20,8 +20,7 @@ def main():
 
     logging.info('We will get data from :' + url)  # will print a message to the console
 
-
-
+    #request to URL set in config.ini 
     user_agent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.47 Safari/537.36'
     response = requests.get(url, headers={'User-Agent': user_agent})
     soup = BeautifulSoup(response.text, 'html.parser')
@@ -30,7 +29,6 @@ def main():
     textContent.append(paragraphs)
     b=json.loads(textContent[0][9:-3])
     df=pd.DataFrame()
-
 
     for page in range(1,b['pagination']['page_count']+1):
 
@@ -48,11 +46,11 @@ def main():
 
         df=df.append(pd.DataFrame(l), ignore_index = True)
 
-
     df.to_csv(path,header=True)
 
     logging.info('FINISH!!!!-- The file is in:' + str(path))
     logging.info('Number of Skus:' + str(df.brand_name.count()))
+
 
 if __name__ == '__main__':
     main()
